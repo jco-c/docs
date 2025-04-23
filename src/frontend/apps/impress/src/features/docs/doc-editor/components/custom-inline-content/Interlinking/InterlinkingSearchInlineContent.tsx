@@ -1,16 +1,62 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+import { createReactInlineContentSpec } from '@blocknote/react';
 import { useTreeContext } from '@gouvfr-lasuite/ui-kit';
 import { TFunction } from 'i18next';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
+import { DocsBlockNoteEditor } from '@/docs/doc-editor';
+import LinkPageIcon from '@/docs/doc-editor/assets/doc-link.svg';
 import AddPageIcon from '@/docs/doc-editor/assets/doc-plus.svg';
 import { Doc, useCreateChildDoc, useDocStore } from '@/docs/doc-management';
 
+import { SearchPage } from './SearchPage';
+
+export const InterlinkingSearchInlineContent = createReactInlineContentSpec(
+  {
+    type: 'interlinkingSearchInline',
+    propSchema: {
+      disabled: {
+        default: false,
+        values: [true, false],
+      },
+    },
+    content: 'styled',
+  },
+  {
+    render: (props) => {
+      if (props.inlineContent.props.disabled) {
+        return null;
+      }
+
+      return <SearchPage {...props} />;
+    },
+  },
+);
+
 export const getInterlinkingMenuItems = (
+  editor: DocsBlockNoteEditor,
   t: TFunction<'translation', undefined>,
   group: string,
   createPage: () => void,
 ) => [
+  {
+    title: t('Link to a page'),
+    onItemClick: () => {
+      editor.insertInlineContent([
+        {
+          type: 'interlinkingSearchInline',
+          props: {
+            disabled: false,
+          },
+        },
+      ]);
+    },
+    aliases: ['interlinking', 'link', 'anchor', 'a'],
+    group,
+    icon: <LinkPageIcon />,
+    subtext: t('Link to a page'),
+  },
   {
     title: t('New page'),
     onItemClick: createPage,
@@ -42,8 +88,9 @@ export const useGetInterlinkingMenuItems = () => {
   });
 
   return useCallback(
-    (t: TFunction<'translation', undefined>) =>
+    (editor: DocsBlockNoteEditor, t: TFunction<'translation', undefined>) =>
       getInterlinkingMenuItems(
+        editor,
         t,
         t('Links'),
         () =>

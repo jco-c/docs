@@ -37,7 +37,7 @@ export const BlockNoteSuggestionMenu = () => {
     const index = defaultMenu.findIndex((item) => item.title === 'Code Block');
     const newSlashMenuItems = [
       ...defaultMenu.slice(0, index + 1),
-      ...getInterlinkingMenuItems(t),
+      ...getInterlinkingMenuItems(editor, t),
       ...defaultMenu.slice(index + 1),
     ];
 
