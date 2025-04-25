@@ -5,10 +5,12 @@ import {
 } from '@blocknote/core';
 import { useBlockNoteEditor } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { css } from 'styled-components';
 
 import {
   Box,
+  BoxButton,
   Card,
   Icon,
   QuickSearch,
@@ -22,6 +24,8 @@ import {
   DocsStyleSchema,
 } from '@/docs/doc-editor';
 import FoundPageIcon from '@/docs/doc-editor/assets/doc-found.svg';
+import AddPageIcon from '@/docs/doc-editor/assets/doc-plus.svg';
+import { useCreateChildDocTree, useDocStore } from '@/docs/doc-management';
 import { DocSearchSubPageContent, DocSearchTarget } from '@/docs/doc-search';
 
 const inputStyle = css`
@@ -62,6 +66,9 @@ export const SearchPage = ({
     DocsInlineContentSchema,
     DocsStyleSchema
   >();
+  const { t } = useTranslation();
+  const { currentDoc } = useDocStore();
+  const createChildDoc = useCreateChildDocTree(currentDoc?.id);
   const inputRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState('');
 
@@ -211,6 +218,33 @@ export const SearchPage = ({
                 />
               )}
             />
+            <Box
+              $css={css`
+                border-top: 1px solid var(--c--theme--colors--greyscale-200);
+              `}
+            >
+              <BoxButton
+                $direction="row"
+                $gap="0.4rem"
+                $align="center"
+                $padding={{ vertical: '0.5rem', horizontal: '0.3rem' }}
+                $css={css`
+                  &:hover {
+                    background-color: var(--c--theme--colors--greyscale-100);
+                  }
+                `}
+                onClick={createChildDoc}
+                $hasTransition={false}
+              >
+                <AddPageIcon />
+                <Text
+                  $size="14px"
+                  $color="var(--c--theme--colors--greyscale-1000)"
+                >
+                  {t('Add a new page')}
+                </Text>
+              </BoxButton>
+            </Box>
           </Card>
         </QuickSearch>
       </Box>

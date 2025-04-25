@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createReactInlineContentSpec } from '@blocknote/react';
-import { useTreeContext } from '@gouvfr-lasuite/ui-kit';
 import { TFunction } from 'i18next';
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
 
 import { DocsBlockNoteEditor } from '@/docs/doc-editor';
 import LinkPageIcon from '@/docs/doc-editor/assets/doc-link.svg';
 import AddPageIcon from '@/docs/doc-editor/assets/doc-plus.svg';
-import { Doc, useCreateChildDoc, useDocStore } from '@/docs/doc-management';
+import { useCreateChildDocTree, useDocStore } from '@/docs/doc-management';
 
 import { SearchPage } from './SearchPage';
 
@@ -29,12 +26,12 @@ export const InterlinkingSearchInlineContent = createReactInlineContentSpec(
         return null;
       }
 
-      return <SearchPage {...props} />;
+      return <SearchPage {...props} contentRef={props.contentRef} />;
     },
   },
 );
 
-export const getInterlinkingMenuItems = (
+export const getInterlinkinghMenuItems = (
   editor: DocsBlockNoteEditor,
   t: TFunction<'translation', undefined>,
   group: string,
@@ -68,37 +65,11 @@ export const getInterlinkingMenuItems = (
 ];
 
 export const useGetInterlinkingMenuItems = () => {
-  const treeContext = useTreeContext<Doc>();
-  const router = useRouter();
   const { currentDoc } = useDocStore();
+  const createChildDoc = useCreateChildDocTree(currentDoc?.id);
 
-  const { mutate: createChildDoc } = useCreateChildDoc({
-    onSuccess: (createdDoc) => {
-      const newDoc = {
-        ...createdDoc,
-        children: [],
-        childrenCount: 0,
-        parentId: currentDoc?.id ?? undefined,
-      };
-      treeContext?.treeData.addChild(currentDoc?.id || null, newDoc);
-
-      router.push(`/docs/${newDoc.id}`);
-      treeContext?.treeData.setSelectedNode(createdDoc);
-    },
-  });
-
-  return useCallback(
-    (editor: DocsBlockNoteEditor, t: TFunction<'translation', undefined>) =>
-      getInterlinkingMenuItems(
-        editor,
-        t,
-        t('Links'),
-        () =>
-          currentDoc?.id &&
-          createChildDoc({
-            parentId: currentDoc.id,
-          }),
-      ),
-    [createChildDoc, currentDoc?.id],
-  );
+  return (
+    editor: DocsBlockNoteEditor,
+    t: TFunction<'translation', undefined>,
+  ) => getInterlinkinghMenuItems(editor, t, t('Links'), createChildDoc);
 };
