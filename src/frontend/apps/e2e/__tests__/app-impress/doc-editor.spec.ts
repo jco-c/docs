@@ -755,4 +755,20 @@ test.describe('Doc Editor', () => {
 
     await verifyDocName(page, docChild1);
   });
+
+  test('it checks interlink shortcut @', async ({ page, browserName }) => {
+    const [randomDoc] = await createDoc(page, 'doc-interlink', browserName, 1);
+
+    await verifyDocName(page, randomDoc);
+
+    const editor = page.locator('.bn-block-outer').last();
+    await editor.click();
+    await page.keyboard.press('@');
+
+    await expect(
+      page.locator(
+        "span[data-inline-content-type='interlinkingSearchInline'] input",
+      ),
+    ).toBeVisible();
+  });
 });

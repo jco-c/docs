@@ -39,6 +39,7 @@ const inputStyle = css`
 `;
 
 type SearchPageProps = {
+  trigger: string;
   updateInlineContent: (
     update: PartialCustomInlineContentFromConfig<
       {
@@ -46,6 +47,9 @@ type SearchPageProps = {
         propSchema: {
           disabled: {
             default: boolean;
+          };
+          trigger: {
+            default: string;
           };
         };
         content: 'styled';
@@ -58,6 +62,7 @@ type SearchPageProps = {
 
 export const SearchPage = ({
   contentRef,
+  trigger,
   updateInlineContent,
 }: SearchPageProps) => {
   const { colorsTokens } = useCunninghamTheme();
@@ -99,7 +104,7 @@ export const SearchPage = ({
         tabIndex={-1} // Ensure the span is focusable
       >
         {' '}
-        /
+        {trigger}
         <Box
           as="input"
           $padding={{ left: '3px' }}
@@ -118,6 +123,7 @@ export const SearchPage = ({
                 type: 'interlinkingSearchInline',
                 props: {
                   disabled: true,
+                  trigger,
                 },
               });
 
@@ -174,6 +180,7 @@ export const SearchPage = ({
                   type: 'interlinkingSearchInline',
                   props: {
                     disabled: true,
+                    trigger,
                   },
                 });
 

@@ -13,6 +13,10 @@ export const InterlinkingSearchInlineContent = createReactInlineContentSpec(
   {
     type: 'interlinkingSearchInline',
     propSchema: {
+      trigger: {
+        default: '/',
+        values: ['/', '@'],
+      },
       disabled: {
         default: false,
         values: [true, false],
@@ -26,7 +30,13 @@ export const InterlinkingSearchInlineContent = createReactInlineContentSpec(
         return null;
       }
 
-      return <SearchPage {...props} contentRef={props.contentRef} />;
+      return (
+        <SearchPage
+          {...props}
+          trigger={props.inlineContent.props.trigger}
+          contentRef={props.contentRef}
+        />
+      );
     },
   },
 );
@@ -45,6 +55,7 @@ export const getInterlinkinghMenuItems = (
           type: 'interlinkingSearchInline',
           props: {
             disabled: false,
+            trigger: '/',
           },
         },
       ]);
