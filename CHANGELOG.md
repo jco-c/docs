@@ -8,10 +8,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- ✨(backend) allow masking documents from the list view #1171
+
 ### Fixed
 
 - 🌐(frontend) keep simple tag during export #1154
-- 🐛(back) manage can-edit endpoint without created room in the ws
+- 🐛(backend) manage can-edit endpoint without created room in the ws
 - 🐛(frontend) fix action buttons not clickable #1162
 
 ## [3.4.0] - 2025-07-09
@@ -27,7 +31,7 @@ and this project adheres to
 - ✨(backend) add ancestors links reach and role to document API #846
 - 📝(project) add troubleshoot doc #1066
 - 📝(project) add system-requirement doc #1066
-- 🔧(front) configure x-frame-options to DENY in nginx conf #1084
+- 🔧(frontend) configure x-frame-options to DENY in nginx conf #1084
 - ✨(backend) allow to disable checking unsafe mimetype on 
   attachment upload #1099
 - ✨(doc) add documentation to install with compose #855
