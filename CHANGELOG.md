@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- ✨(frontend) add duplicate action to doc tree #1175
+
 ### Changed
 
 - ♻️(frontend) redirect to doc after duplicate #1175

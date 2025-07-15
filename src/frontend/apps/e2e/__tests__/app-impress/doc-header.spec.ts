@@ -472,14 +472,19 @@ test.describe('Doc Header', () => {
     await editor.click();
     await editor.fill('Hello Duplicated World');
 
-    await page.getByLabel('Open the document options').click();
+    const duplicateTitle = 'Copy of ' + childTitle;
+    const docTree = page.getByTestId('doc-tree');
+
+    const child = docTree
+      .getByRole('treeitem')
+      .locator('.--docs-sub-page-item')
+      .filter({
+        hasText: childTitle,
+      });
+    await child.hover();
+    await child.getByText(`more_horiz`).click();
 
     await page.getByRole('menuitem', { name: 'Duplicate' }).click();
-    await expect(
-      page.getByText('Document duplicated successfully!'),
-    ).toBeVisible();
-
-    const duplicateTitle = 'Copy of ' + childTitle;
 
     await verifyDocName(page, duplicateTitle);
 
