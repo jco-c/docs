@@ -14,6 +14,7 @@ and this project adheres to
 - 🐛(back) manage can-edit endpoint without created room in the ws
 - 🐛(frontend) fix action buttons not clickable #1162
 - 🐛(frontend) fix crash share modal on grid options #1174
+- 🐛(frontend) fix unfold subdocs not clickable at the bottom #1179
 
 ## [3.4.0] - 2025-07-09
 
