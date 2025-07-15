@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- ♻️(frontend) redirect to doc after duplicate #1175
+
 ### Fixed
 
 - 🌐(frontend) keep simple tag during export #1154
