@@ -38,6 +38,11 @@ curl -o env.d/yprovider https://raw.githubusercontent.com/suitenumerique/docs/re
 curl -o env.d/common https://raw.githubusercontent.com/suitenumerique/docs/refs/heads/main/env.d/production.dist/postgresql
 ```
 
+If you are using the sample nginx-proxy configuration:
+```bash
+curl -o default.conf.template https://raw.githubusercontent.com/suitenumerique/docs/refs/heads/main/docker/files/production/etc/nginx/conf.d/default.conf.template
+```
+
 ## Step 2: Configuration
 
 Docs configuration is achieved through environment variables. We provide a [detailed description of all variables](../env.md).
